@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>775743309573-er5tl97pffo3lhkb0k305tpte977k6g9.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.775743309573-er5tl97pffo3lhkb0k305tpte977k6g9</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>775743309573-g27p8nvaesbnlj2i4evj0s2hk4r1jiki.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBtzkIZSv59EEbRh5v0GQSiIfhO3j9wndY</string>
+	<key>GCM_SENDER_ID</key>
+	<string>775743309573</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.itmedicus.alataf</string>
+	<key>PROJECT_ID</key>
+	<string>al-ataf-1557811763997</string>
+	<key>STORAGE_BUCKET</key>
+	<string>al-ataf-1557811763997.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:775743309573:ios:0ae6396aef350cc06ed96c</string>
+	<key>DATABASE_URL</key>
+	<string>https://al-ataf-1557811763997.firebaseio.com</string>
+</dict>
+</plist>

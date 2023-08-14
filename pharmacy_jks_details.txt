@@ -1,0 +1,2 @@
+alias-> pharmacy_itm
+pass & key pass-> ITm_pharmacy##

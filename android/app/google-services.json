@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "932127035516",
+    "project_id": "al-ataf",
+    "storage_bucket": "al-ataf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:932127035516:android:039f25c1930d108ded39f9",
+        "android_client_info": {
+          "package_name": "com.itmedicus.alataf"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "932127035516-k2l2ceoit1cp72bnq1174hb8g8c2gmie.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.itmedicus.alataf",
+            "certificate_hash": "5833b49e7e779966d1d4949e9c6f058cc175d6ed"
+          }
+        },
+        {
+          "client_id": "932127035516-dhan2bt0b5p4nkefouo21qg3or187f6o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDx_9OkG13MK6tzYArBa7G8TBAF5yZULuI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "932127035516-dhan2bt0b5p4nkefouo21qg3or187f6o.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
