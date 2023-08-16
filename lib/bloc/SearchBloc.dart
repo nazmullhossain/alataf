@@ -19,16 +19,9 @@ class SearchBloc {
       return;
     }
 
-    // var url = apiURL+ "search_product?search=$text&page=1"
-    //         ;
-
-
-    // Uri.parse(Variables.baseUrl+'search_customer?name=${map['name']}&phone=${map['phone']}'
-    //     '&company_name=${map['company_name']}&customer_id=${map['customer_id']}'),
-    //
-
-    var url = apiURL + "search_product?search=nap&page=1" +
+    var url = apiURL + "/search_product?page=1&search=" +
         text;
+
     print(url);
 
     Map<String, String> headers = {

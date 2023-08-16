@@ -1,9 +1,16 @@
+import 'dart:convert';
+
 import 'package:alataf/models/AdvertisementData.dart';
 import 'package:alataf/models/LoginData.dart';
 import 'package:rxdart/rxdart.dart';
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter/material.dart';
+
+import '../models/info_model.dart';
+
+
 
 class OfferBloc {
   BehaviorSubject _isLoggedIn = new BehaviorSubject<bool>();
@@ -14,6 +21,53 @@ class OfferBloc {
   Stream get streamAdvertisementData$ => advertisementData.stream;
   Stream get streamLoginStatus$ => _isLoggedIn.stream;
   String get currentText => _loader.value;
+
+  //slider
+
+  Future<List<Insertt>> getData(BuildContext context) async {
+    List<Insertt> insertData = [];
+    List<Insertt> offerTypeAdvertisement = [];
+    final String url =
+        "http://139.59.119.57/api/get_advertisement?datetime=2020-03-1300";
+    try {
+
+      http.Response res = await http.post(Uri.parse(url));
+
+      if(res.statusCode==200){        var  jsonRes=jsonDecode(res.body);
+
+        InfoData advertisement =
+        InfoData.fromJson(jsonRes);
+
+
+
+        for (Insertt advertisement in advertisement.insert!) {
+          if (advertisement.bannerType == "offer") {
+            offerTypeAdvertisement.add(advertisement);
+            print(offerTypeAdvertisement);
+          }
+        }
+      }
+
+
+
+
+
+    } catch (e) {
+      print(e.toString());
+    }
+    return offerTypeAdvertisement;
+  }
+
+
+
+
+
+
+
+
+
+
+
   // http://139.59.119.57
   callAdvertisementAPI(String text) async {
     startLoading();
