@@ -8,6 +8,8 @@ import 'package:alataf/main.dart';
 import 'package:alataf/models/Products.dart';
 import 'package:alataf/utilities/constants.dart';
 
+import '../models/product_models.dart';
+
 class ProductDetails extends StatefulWidget {
   @override
   ProductDetailsState createState() {

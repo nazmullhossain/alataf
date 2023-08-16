@@ -2,6 +2,8 @@ import 'package:alataf/models/Products.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
+import '../models/product_models.dart';
+
 class DatabaseConfig {
   Database? database;
 

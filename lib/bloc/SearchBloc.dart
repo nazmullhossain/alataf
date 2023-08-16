@@ -4,6 +4,8 @@ import 'package:rxdart/rxdart.dart';
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
 
+import '../models/product_models.dart';
+
 class SearchBloc {
   BehaviorSubject _loader = new BehaviorSubject<bool>();
   PublishSubject searchData = new PublishSubject<List<ProductItem>>();
@@ -19,8 +21,10 @@ class SearchBloc {
       return;
     }
 
-    var url = apiURL + "/search_product?page=1&search=" +
+    // var url = apiURL + "search_product?search=$text&page=1";
+    var url = apiURL + "search_product?page=1&search=" +
         text;
+
 
     print(url);
 
@@ -29,6 +33,7 @@ class SearchBloc {
     };
 
     var response = await http.post(Uri.parse(url), headers: headers);
+    print("search ${response}");
     if (response.statusCode == 200) {
       print("Response: $response.");
       var jsonResponse = convert.jsonDecode(response.body);
@@ -50,7 +55,7 @@ class SearchBloc {
   }
 
   getInfo(String text) {
-    searchData.add(null);
+    // searchData.add(null);
     startLoading();
     callAPI(text);
   }

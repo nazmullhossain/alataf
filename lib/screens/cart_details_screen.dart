@@ -383,9 +383,9 @@ class CartDetailsState extends State<CartDetails> {
                     SizedBox(height: 8),
                     Text("Profile update required",
                         style: TextStyle(fontSize: 24, color: Colors.red)),
-                    SizedBox(height: 20),
+                    SizedBox(height: 10),
                     Text("To checkout please update your profile",
-                        style: TextStyle(fontSize: 18, color: Colors.black87)),
+                        style: TextStyle(fontSize: 10, color: Colors.black87)),
                   ],
                 )),
             actions: <Widget>[

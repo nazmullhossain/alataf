@@ -29,14 +29,14 @@ class Product {
 
   Product(
       {this.total,
-      this.perPage,
-      this.currentPage,
-      this.lastPage,
-      this.nextPageUrl,
-      this.prevPageUrl,
-      this.from,
-      this.to,
-      this.productList});
+        this.perPage,
+        this.currentPage,
+        this.lastPage,
+        this.nextPageUrl,
+        this.prevPageUrl,
+        this.from,
+        this.to,
+        this.productList});
 
   Product.fromJson(Map<String, dynamic> json) {
     total = json['total'];
@@ -94,25 +94,25 @@ class ProductItem {
 
   ProductItem(
       {this.id,
-      this.productName,
-      this.vatPercent,
-      this.strength,
-      this.price,
-      this.genericName,
-      this.categoryName,
-      this.unitName,
-      this.companyName});
+        this.productName,
+        this.vatPercent,
+        this.strength,
+        this.price,
+        this.genericName,
+        this.categoryName,
+        this.unitName,
+        this.companyName});
 
   ProductItem.fromJson(Map<String, dynamic> json) {
-    id = json['id']??"";
-    productName = json['product_name']??"";
-    vatPercent = json['vat_percent']??"";
-    strength = json['strength']??"";
-    price = json['price']??"";
-    genericName = json['generic_name']??"";
+    id = json['id'] ??"";
+    productName = json['product_name'] ??"";
+    vatPercent = json['vat_percent'] ??"";
+    strength = json['strength'] ??"";
+    price = json['price'] ??"";
+    genericName = json['generic_name'] ??"";
     categoryName = json['category_name']??"";
-    unitName = json['unit_name']??"";
-    companyName = json['company_name']??"";
+    unitName = json['unit_name'] ??"";
+    companyName = json['company_name'] ??"";
   }
 
   Map<String, dynamic> toJson() {

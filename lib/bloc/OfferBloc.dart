@@ -10,8 +10,6 @@ import 'package:flutter/material.dart';
 
 import '../models/info_model.dart';
 
-
-
 class OfferBloc {
   BehaviorSubject _isLoggedIn = new BehaviorSubject<bool>();
   BehaviorSubject _loader = new BehaviorSubject<bool>();
@@ -28,45 +26,30 @@ class OfferBloc {
     List<Insertt> insertData = [];
     List<Insertt> offerTypeAdvertisement = [];
     final String url =
-        "http://139.59.119.57/api/get_advertisement?datetime=2020-03-1300";
+        "http://139.59.119.57/api/get_advertisement?datetime=2020-03-13";
+    // get_advertisement?datetime=2020-03-13
     try {
-
       http.Response res = await http.post(Uri.parse(url));
+      print("image ${res.body}");
 
-      if(res.statusCode==200){        var  jsonRes=jsonDecode(res.body);
+      if (res.statusCode == 200) {
+        var jsonRes = jsonDecode(res.body);
+        print(jsonRes);
 
-        InfoData advertisement =
-        InfoData.fromJson(jsonRes);
-
-
+        InfoData advertisement = InfoData.fromJson(jsonRes);
 
         for (Insertt advertisement in advertisement.insert!) {
-          if (advertisement.bannerType == "offer") {
+          if (advertisement.bannerType == "home_banner") {
             offerTypeAdvertisement.add(advertisement);
             print(offerTypeAdvertisement);
           }
         }
       }
-
-
-
-
-
     } catch (e) {
       print(e.toString());
     }
     return offerTypeAdvertisement;
   }
-
-
-
-
-
-
-
-
-
-
 
   // http://139.59.119.57
   callAdvertisementAPI(String text) async {

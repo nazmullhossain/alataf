@@ -31,6 +31,8 @@ import 'package:share_plus/share_plus.dart';
 
 import 'package:url_launcher/url_launcher.dart';
 
+import '../bloc/SearchBloc.dart';
+import '../bloc/test_search_block.dart';
 import '../models/info_model.dart';
 
 class Home extends StatefulWidget {
@@ -63,7 +65,7 @@ class HomeState extends State<Home> with WidgetsBindingObserver {
   //
   // WebBrowserInfo webBrowserInfo = await deviceInfo.webBrowserInfo;
   // print('Running on ${webBrowserInfo.userAgent}');
-
+  int currentIndex = 0;
   final List<String> imgList = [
     'assets/images/medicine.jpg',
     'https://images.unsplash.com/photo-1592100231805-768633151f65?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80',
@@ -128,20 +130,24 @@ class HomeState extends State<Home> with WidgetsBindingObserver {
     });
   }
 
-  OfferBloc offerBloc=OfferBloc();
+  OfferBloc offerBloc = OfferBloc();
   List<Insertt>? insertData;
 
-
   fetchAllProducts() async {
-    insertData = await offerBloc.getData( context);
+    insertData = await offerBloc.getData(context);
     setState(() {});
   }
-
+  // TestSearch testSearch =TestSearch();
+  // SearchBloc searchBloc=SearchBloc();
   @override
   void initState() {
     super.initState();
     print("here");
     fetchAllProducts();
+
+
+
+    // testSearch.searchData();
     Platform.isAndroid ? AndroidDeviceInformation() : IosDeviceInformation();
     WidgetsBinding.instance.addObserver(this);
     _cartDetailsBloc = getIt<CartDetailsBloc>();
@@ -165,9 +171,9 @@ class HomeState extends State<Home> with WidgetsBindingObserver {
     });
 
     WidgetsBinding.instance.addPostFrameCallback(
-            (_) => Future.delayed(const Duration(milliseconds: 10000), () async {
-          await _cartDetailsBloc?.getProducts();
-        }));
+        (_) => Future.delayed(const Duration(milliseconds: 10000), () async {
+              await _cartDetailsBloc?.getProducts();
+            }));
 
     initPackageInfo();
 //    Platform.isAndroid ? AndroidDeviceInformation() : IosDeviceInformation();
@@ -214,38 +220,38 @@ class HomeState extends State<Home> with WidgetsBindingObserver {
 
     _imageSliders = imgList
         .map((item) => Container(
-      child: Container(
-        margin: EdgeInsets.all(0.0),
-        child: ClipRRect(
-            borderRadius: BorderRadius.all(Radius.circular(5.0)),
-            child: Stack(
-              children: <Widget>[
-                sliderImage(item, context),
-                // Positioned(
-                //   bottom: 0.0,
-                //   left: 0.0,
-                //   right: 0.0,
-                //   child: Container(
-                //     decoration: BoxDecoration(
-                //         // color: Colors.white
-                //         gradient: LinearGradient(
-                //
-                //           // colors: [
-                //           //   Color.fromARGB(1, 0, 0, 0),
-                //           //   Color.fromARGB(0, 0, 0, 0)
-                //           // ],
-                //           begin: Alignment.bottomCenter,
-                //           end: Alignment.topCenter,
-                //         ),
-                //         ),
-                //     padding: EdgeInsets.symmetric(
-                //         vertical: 10.0, horizontal: 10.0),
-                //   ),
-                // ),
-              ],
-            )),
-      ),
-    ))
+              child: Container(
+                margin: EdgeInsets.all(0.0),
+                child: ClipRRect(
+                    borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                    child: Stack(
+                      children: <Widget>[
+                        sliderImage(item, context),
+                        // Positioned(
+                        //   bottom: 0.0,
+                        //   left: 0.0,
+                        //   right: 0.0,
+                        //   child: Container(
+                        //     decoration: BoxDecoration(
+                        //         // color: Colors.white
+                        //         gradient: LinearGradient(
+                        //
+                        //           // colors: [
+                        //           //   Color.fromARGB(1, 0, 0, 0),
+                        //           //   Color.fromARGB(0, 0, 0, 0)
+                        //           // ],
+                        //           begin: Alignment.bottomCenter,
+                        //           end: Alignment.topCenter,
+                        //         ),
+                        //         ),
+                        //     padding: EdgeInsets.symmetric(
+                        //         vertical: 10.0, horizontal: 10.0),
+                        //   ),
+                        // ),
+                      ],
+                    )),
+              ),
+            ))
         .toList();
 
     getLoginStatus();
@@ -272,7 +278,8 @@ class HomeState extends State<Home> with WidgetsBindingObserver {
                     return GestureDetector(
                         onTap: () {
                           if (totalItemCount == 0) {
-                         Fluttertoast.showToast(msg:"Cart is empty",
+                            Fluttertoast.showToast(
+                                msg: "Cart is empty",
                                 // duration: Toast.LENGTH_SHORT,
                                 // gravity: Toast.TOP,
                                 backgroundColor: Colors.deepOrangeAccent,
@@ -304,7 +311,8 @@ class HomeState extends State<Home> with WidgetsBindingObserver {
           ),
           iconTheme: IconThemeData(color: Colors.black),
           elevation: 0.0,
-          backgroundColor: Colors.white, systemOverlayStyle: SystemUiOverlayStyle.dark),
+          backgroundColor: Colors.white,
+          systemOverlayStyle: SystemUiOverlayStyle.dark),
       drawer: Drawer(
         child: ListView(
           // Important: Remove any padding from the ListView.
@@ -342,25 +350,25 @@ class HomeState extends State<Home> with WidgetsBindingObserver {
             ),
             isLoggedIn
                 ? ListTile(
-              dense: true,
-              title: Text('Profile'),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => Profile(),
-                    ));
-              },
-            )
+                    dense: true,
+                    title: Text('Profile'),
+                    onTap: () {
+                      Navigator.pop(context);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Profile(),
+                          ));
+                    },
+                  )
                 : Container(),
             ListTile(
               dense: true,
               title: Text('Order History'),
               onTap: () {
                 if (getIt<MainBloc>().key.toString().trim().length == 0) {
-                  Fluttertoast.showToast(msg:
-                      "To view order history please login first",
+                  Fluttertoast.showToast(
+                      msg: "To view order history please login first",
                       // gravity: Toast.CENTER,
                       backgroundColor: Colors.red,
                       textColor: Colors.white);
@@ -388,7 +396,7 @@ class HomeState extends State<Home> with WidgetsBindingObserver {
                 Share.share("Share Al-Ataf",
                     subject: "Subject",
                     sharePositionOrigin:
-                    box.localToGlobal(Offset.zero) & box.size);
+                        box.localToGlobal(Offset.zero) & box.size);
               },
             ),
             ListTile(
@@ -401,9 +409,9 @@ class HomeState extends State<Home> with WidgetsBindingObserver {
                     path: "alatafpharma@gmail.com",
                     queryParameters: {
                       'subject':
-                      "Feedback%20to%20Al-Ataf%20Pharma%20(${packageInfo.version})",
+                          "Feedback%20to%20Al-Ataf%20Pharma%20(${packageInfo.version})",
                       'body':
-                      "\n\n\nOS Version: $_osVersion \nBrand:$_deviceName \nModel: $_model"
+                          "\n\n\nOS Version: $_osVersion \nBrand:$_deviceName \nModel: $_model"
                     });
                 launchUrl(Uri.parse(mailing.toString()));
                 // _launchURL(
@@ -411,26 +419,25 @@ class HomeState extends State<Home> with WidgetsBindingObserver {
               },
             ),
             ListTile(
-              dense: true,
-              title: Text('Services'),
-              onTap: () {
-                Navigator.pop(context);
+                dense: true,
+                title: Text('Services'),
+                onTap: () {
+                  Navigator.pop(context);
 
-                Fluttertoast.showToast(msg: "Coming soon",
-                    backgroundColor: Colors.green,
-                    textColor: Colors.white
-                  // duration: Toast.LENGTH_SHORT);
-                  // Fluttertoast.showToast(
-                  //   textColor: Colors.white,
-                  //   backgroundColor: Colors.green,
-                  //   msg: "Coming soon",
-                  //   toastLength: Toast.LENGTH_SHORT,
-                  // );
+                  Fluttertoast.showToast(
+                      msg: "Coming soon",
+                      backgroundColor: Colors.green,
+                      textColor: Colors.white
+                      // duration: Toast.LENGTH_SHORT);
+                      // Fluttertoast.showToast(
+                      //   textColor: Colors.white,
+                      //   backgroundColor: Colors.green,
+                      //   msg: "Coming soon",
+                      //   toastLength: Toast.LENGTH_SHORT,
+                      // );
 
-
-                );
-
-              }),
+                      );
+                }),
             ListTile(
               dense: true,
               title: Text('About Us'),
@@ -462,7 +469,7 @@ class HomeState extends State<Home> with WidgetsBindingObserver {
                     queryParameters: {
                       'subject': "App complain",
                       'body':
-                      "Note:%20The%20below%20information%20helps%20us%20to%20understand%20your%20problem%20better.\n\n\n\nVersion: ${packageInfo.version}"
+                          "Note:%20The%20below%20information%20helps%20us%20to%20understand%20your%20problem%20better.\n\n\n\nVersion: ${packageInfo.version}"
                     });
                 launch(mailing.toString());
                 // _launchURL(
@@ -530,34 +537,32 @@ class HomeState extends State<Home> with WidgetsBindingObserver {
                 // sliderView(_imageSliders!),
 
                 //slider image get from api
-                insertData==null?sliderView(_imageSliders!): CarouselSlider(
-                  items: insertData!
-                      .map(
-                        (item) => Image.network(
-                      item.imageUrl.toString(),
-                      fit: BoxFit.cover,
-                      height: 144,
-
-                    ),
-                  )
-                      .toList(),
-                  carouselController: carouselController,
-                  options: CarouselOptions(
-                    height: 144,
-
-                    scrollPhysics: const BouncingScrollPhysics(),
-                    autoPlay: true,
-                    aspectRatio: 2,
-                    viewportFraction: 1,
-                    onPageChanged: (index, reason) {
-                      setState(() {
-                        // currentIndex = index;
-                      });
-                    },
-                  ),
-                ),
-
-
+                insertData == null
+                    ? sliderView(_imageSliders!)
+                    : CarouselSlider(
+                        items: insertData!
+                            .map(
+                              (item) => Image.network(
+                                item.imageUrl.toString(),
+                                fit: BoxFit.cover,
+                                height: 144,
+                              ),
+                            )
+                            .toList(),
+                        carouselController: carouselController,
+                        options: CarouselOptions(
+                          height: 144,
+                          scrollPhysics: const BouncingScrollPhysics(),
+                          autoPlay: true,
+                          aspectRatio: 2,
+                          viewportFraction: 1,
+                          onPageChanged: (index, reason) {
+                            setState(() {
+                              currentIndex = index - 1;
+                            });
+                          },
+                        ),
+                      ),
 
                 SizedBox(height: 20),
                 prescriptionUploadView(context),
@@ -597,8 +602,8 @@ Widget buttonHistory(BuildContext context) {
           child: ElevatedButton(
               onPressed: () {
                 if (getIt<MainBloc>().key.toString().trim().length == 0) {
-                 Fluttertoast.showToast(msg:
-                      "To view order history please login first",
+                  Fluttertoast.showToast(
+                      msg: "To view order history please login first",
                       // gravity: Toast.CENTER,
                       backgroundColor: Colors.red,
                       textColor: Colors.white);
@@ -644,10 +649,10 @@ Widget buttonOrder(BuildContext context) {
               onPressed: () {
                 WidgetsBinding.instance
                     .addPostFrameCallback((_) => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => Search(),
-                    )));
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => Search(),
+                        )));
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Color(0xFFFFEEE6),
@@ -676,10 +681,10 @@ Widget buttonNotification(BuildContext context) {
               onPressed: () {
                 WidgetsBinding.instance
                     .addPostFrameCallback((_) => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => Message(),
-                    )));
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => Message(),
+                        )));
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Color(0xFFFFEEE6),
@@ -687,7 +692,7 @@ Widget buttonNotification(BuildContext context) {
               child: badges.Badge(
                 showBadge: false,
                 badgeContent:
-                Text('0', style: TextStyle(color: Colors.white70)),
+                    Text('0', style: TextStyle(color: Colors.white70)),
                 child: Icon(Icons.message, size: 40, color: Colors.black54),
               )),
         ),
@@ -717,10 +722,10 @@ Widget buttonOffers(BuildContext context) {
               onPressed: () {
                 WidgetsBinding.instance
                     .addPostFrameCallback((_) => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => Offer(),
-                    )));
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => Offer(),
+                        )));
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Color(0xFFFFEEE6),
@@ -752,18 +757,18 @@ Widget searchView(BuildContext context) {
           padding: const EdgeInsets.fromLTRB(16.0, 10.0, 16.0, 10.0),
           child: Container(
               child: Row(
-                children: <Widget>[
-                  Icon(
-                    Icons.search,
-                    color: Colors.black54,
-                  ),
-                  SizedBox(width: 8),
-                  Text(
-                    "Search by generic or medicine name",
-                    style: TextStyle(color: Colors.black54),
-                  )
-                ],
-              ))),
+            children: <Widget>[
+              Icon(
+                Icons.search,
+                color: Colors.black54,
+              ),
+              SizedBox(width: 8),
+              Text(
+                "Search by generic or medicine name",
+                style: TextStyle(color: Colors.black54),
+              )
+            ],
+          ))),
     ),
   );
 }

@@ -13,6 +13,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
+import '../models/product_models.dart';
+
 class Search extends StatefulWidget {
   @override
   SearchState createState() {
