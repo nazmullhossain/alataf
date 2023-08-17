@@ -1,4 +1,5 @@
 
+import 'package:alataf/provider/imge_provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -127,6 +128,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => Counter()),
+        ChangeNotifierProvider(create: (_) => RecipeClass()),
       ],
       child: Consumer<Counter>(
         builder: (context, counter, _) {

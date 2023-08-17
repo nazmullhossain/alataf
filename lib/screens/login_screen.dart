@@ -69,7 +69,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   _launchURL() async {
-    const url = 'http://128.199.195.219/customer_forgot';
+    const url = 'http://139.59.119.57/customer_forgot';
     if (await launchUrl(Uri.parse(url))) {
       await launchUrl(Uri.parse(url));
     } else {

@@ -7,7 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:alataf/screens/prescription_submit_screen.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
-// import 'package:line_awesome_icons/line_awesome_icons.dart';
+
 import 'package:video_player/video_player.dart';
 
 class PrescriptionUpload extends StatefulWidget {
@@ -101,20 +101,20 @@ class _PrescriptionUploadState extends State<PrescriptionUpload> {
     }
   }
 
-  // Future<void> retrieveLostData(ImageSource source) async {
-  //   final LostData response = (await _picker.pickImage(source: source)) as LostData;
-  //   if (response.isEmpty) {
-  //     return;
-  //   }
-  //   if (response.file != null) {
-  //     isVideo = false;
-  //     setState(() {
-  //       _imageFile = response.file;
-  //     });
-  //   } else {
-  //     _retrieveDataError = response.exception!.code;
-  //   }
-  // }
+  Future<void> retrieveLostData() async {
+    final LostData response = (await _picker.retrieveLostData()) as LostData;
+    if (response.isEmpty) {
+      return;
+    }
+    if (response.file != null) {
+      isVideo = false;
+      setState(() {
+        _imageFile = response.file;
+      });
+    } else {
+      _retrieveDataError = response.exception!.code;
+    }
+  }
 
   Widget uploadImage(BuildContext context) {
     return Column(
@@ -215,37 +215,37 @@ class _PrescriptionUploadState extends State<PrescriptionUpload> {
             Center(
               child: !kIsWeb && defaultTargetPlatform == TargetPlatform.android
                   ? FutureBuilder<void>(
-                      // future: retrieveLostData(),
-                      builder:
-                          (BuildContext context, AsyncSnapshot<void> snapshot) {
-                        switch (snapshot.connectionState) {
-                          case ConnectionState.none:
-                          case ConnectionState.waiting:
-                            return const Text(
-                              'You have not yet picked an image.',
-                              textAlign: TextAlign.center,
-                            );
-                          case ConnectionState.done:
-                            {
-                              print("picked Done");
-                              return _previewImage();
-                            }
+                future: retrieveLostData(),
+                builder:
+                    (BuildContext context, AsyncSnapshot<void> snapshot) {
+                  switch (snapshot.connectionState) {
+                    case ConnectionState.none:
+                    case ConnectionState.waiting:
+                      return const Text(
+                        'You have not yet picked an image.',
+                        textAlign: TextAlign.center,
+                      );
+                    case ConnectionState.done:
+                      {
+                        print("picked Done");
+                        return _previewImage();
+                      }
 
-                          default:
-                            if (snapshot.hasError) {
-                              return Text(
-                                'Pick image/video error: ${snapshot.error}}',
-                                textAlign: TextAlign.center,
-                              );
-                            } else {
-                              return const Text(
-                                'You have not yet picked an image.',
-                                textAlign: TextAlign.center,
-                              );
-                            }
-                        }
-                      },
-                    )
+                    default:
+                      if (snapshot.hasError) {
+                        return Text(
+                          'Pick image/video error: ${snapshot.error}}',
+                          textAlign: TextAlign.center,
+                        );
+                      } else {
+                        return const Text(
+                          'You have not yet picked an image.',
+                          textAlign: TextAlign.center,
+                        );
+                      }
+                  }
+                },
+              )
                   : _previewImage(),
             ),
             SizedBox(height: 16),
@@ -262,7 +262,7 @@ class _PrescriptionUploadState extends State<PrescriptionUpload> {
                 Expanded(
                   child: Text(
                       "Upload an image of your prescription from that to proof that "
-                      "you have real prescription",
+                          "you have real prescription",
                       overflow: TextOverflow.clip,
                       textAlign: TextAlign.center,
                       style: TextStyle(fontSize: 16)),

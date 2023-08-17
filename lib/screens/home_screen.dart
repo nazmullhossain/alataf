@@ -16,6 +16,8 @@ import 'package:alataf/screens/order_history_screen.dart';
 import 'package:alataf/screens/prescription_upload_screen.dart';
 import 'package:alataf/screens/profile_screen.dart';
 import 'package:alataf/screens/search_screen.dart';
+import 'package:alataf/screens/testimage_upload_page.dart';
+import 'package:alataf/screens/upload_prescription_screen.dart';
 import 'package:alataf/utilities/constants.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:badges/badges.dart' as badges;
@@ -261,9 +263,9 @@ class HomeState extends State<Home> with WidgetsBindingObserver {
       appBar: AppBar(
           title: Row(
             children: <Widget>[
-              Text(
-                "Pharmacy",
-                style: TextStyle(color: Colors.black),
+              Image.asset(
+                "assets/images/Transparent PNG.png",width: 100,height: 100,
+
               ),
               Expanded(child: SizedBox()),
               StreamBuilder(
@@ -810,7 +812,8 @@ Widget prescriptionUploadView(BuildContext context) {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => PrescriptionUpload(),
+
+                      builder: (context) => TestImagePage(),
                     ));
               } else {
                 /*Fluttertoast.showToast(

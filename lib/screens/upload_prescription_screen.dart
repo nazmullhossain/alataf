@@ -1,3 +1,4 @@
+import 'package:alataf/screens/prescription_submit_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -42,7 +43,7 @@ class UploadPrescriptionState extends State<UploadPrescription> {
                   Expanded(
                     child: Text(
                         "Upload an image of your prescription from that to proof that "
-                        "you have real prescription",
+                            "you have real prescription",
                         overflow: TextOverflow.clip,
                         textAlign: TextAlign.center,
                         style: TextStyle(fontSize: 16)),
@@ -75,7 +76,7 @@ Widget uploadImage(BuildContext context) {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => PrescriptionUpload(),
+                    builder: (context) => PrescriptionSubmit(),
                   ));
             },
             style: ElevatedButton.styleFrom(

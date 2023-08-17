@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
-// import 'package:toast/toast.dart';
+
 
 class PrescriptionSubmit extends StatefulWidget {
   @override
@@ -95,19 +95,18 @@ class PrescriptionSubmitState extends State<PrescriptionSubmit> {
   }
 
   showToast() {
-    Fluttertoast.showToast(msg: "Something went wrong!!",
+Fluttertoast.showToast(msg:"Something went wrong!!",
         // duration: Toast.LENGTH_SHORT,
-        toastLength: Toast.LENGTH_SHORT,
         backgroundColor: Colors.redAccent,
         textColor: Colors.white);
   }
 
   @override
-  void initState() {
+  void initState() {;
+  _prescriptionBloc.streamUploadResult$.listen((data) {
+    PrescriptionUploadData prescriptionUploadData = data;
     super.initState();
-    _prescriptionBloc.streamUploadResult$.listen((data) {
-      PrescriptionUploadData prescriptionUploadData = data;
-      if (prescriptionUploadData.success == "true") {
+      if (prescriptionUploadData == "true") {
         WidgetsBinding.instance.addPostFrameCallback((_) {
           Navigator.push(
               context,
@@ -127,14 +126,14 @@ class PrescriptionSubmitState extends State<PrescriptionSubmit> {
 
   @override
   void dispose() {
-    _prescriptionBloc.dispose();
+    // _prescriptionBloc.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     final PickedFile pickedFile =
-        ModalRoute.of(context)?.settings.arguments as PickedFile;
+    ModalRoute.of(context)?.settings.arguments as PickedFile;
     return SafeArea(
       child: Scaffold(
         backgroundColor: Color(0xFFFFFFFF),

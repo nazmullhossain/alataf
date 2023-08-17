@@ -1,7 +1,10 @@
 import 'package:alataf/bloc/OfferBloc.dart';
 import 'package:alataf/models/AdvertisementData.dart';
+import 'package:alataf/models/off_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+
+import '../bloc/new_offer_bloc.dart';
 
 final spinLoader = SpinKitCircle(
   color: Colors.orange,
@@ -16,12 +19,12 @@ class Offer extends StatefulWidget {
 }
 
 class OfferState extends State<Offer> {
-  OfferBloc _offerBloc = OfferBloc();
+  NewOfferBloc _offerBloc = NewOfferBloc();
 
   @override
   void initState() {
     super.initState();
-    _offerBloc.callAdvertisementAPI("");
+    _offerBloc.callAPI("");
   }
 
   @override
@@ -84,7 +87,7 @@ class OfferState extends State<Offer> {
     );
   }
 
-  Widget listItemView(Insert product) {
+  Widget listItemView(Dataaa product) {
     return Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

@@ -35,8 +35,8 @@ class PrescriptionSubmitCompleteState
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               SizedBox(height: 16),
-              (prescriptionUploadData.success == "true")
-                  ? Container(
+              // (prescriptionUploadData.success == "true")
+                   Container(
                       padding: EdgeInsets.all(8.0),
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
@@ -54,8 +54,8 @@ class PrescriptionSubmitCompleteState
                         color: Colors.white,
                         size: 60,
                       ),
-                    )
-                  : Icon(
+                    ),
+                  Icon(
                       LineAwesomeIcons.parking,
                       color: Colors.red,
                       size: 60,

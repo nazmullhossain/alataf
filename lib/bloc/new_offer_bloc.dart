@@ -11,10 +11,10 @@ import 'package:flutter/material.dart';
 import '../models/info_model.dart';
 import '../models/off_model.dart';
 
-class OfferBloc {
+class NewOfferBloc {
   BehaviorSubject _isLoggedIn = new BehaviorSubject<bool>();
   BehaviorSubject _loader = new BehaviorSubject<bool>();
-  PublishSubject advertisementData = new PublishSubject<List<Insert>>();
+  PublishSubject advertisementData = new PublishSubject<List<Dataaa>>();
 
 
   Stream get streamLoader$ => _loader.stream;
@@ -23,41 +23,12 @@ class OfferBloc {
   Stream get streamLoginStatus$ => _isLoggedIn.stream;
   String get currentText => _loader.value;
 
-  //slider
 
-  Future<List<Insertt>> getData(BuildContext context) async {
-    List<Insertt> insertData = [];
-    List<Insertt> offerTypeAdvertisement = [];
-    final String url =
-        "http://139.59.119.57/api/get_advertisement?datetime=2020-03-13";
-    // get_advertisement?datetime=2020-03-13
-    try {
-      http.Response res = await http.post(Uri.parse(url));
-      print("image ${res.body}");
-
-      if (res.statusCode == 200) {
-        var jsonRes = jsonDecode(res.body);
-        print(jsonRes);
-
-        InfoData advertisement = InfoData.fromJson(jsonRes);
-
-        for (Insertt advertisement in advertisement.insert!) {
-          if (advertisement.bannerType == "home_banner") {
-            offerTypeAdvertisement.add(advertisement);
-            print(offerTypeAdvertisement);
-          }
-        }
-      }
-    } catch (e) {
-      print(e.toString());
-    }
-    return offerTypeAdvertisement;
-  }
 
   // http://139.59.119.57
-  callAdvertisementAPI(String text) async {
+  callAPI(String text) async {
     startLoading();
-    var url = "http://139.59.119.57/api/get_advertisement?datetime=2020-03-15";
+    var url = "http://139.59.119.57/api/get_advertisement2?datetime=2020-03-13";
     print(url);
 
     Map<String, String> headers = {
@@ -68,16 +39,17 @@ class OfferBloc {
     if (response.statusCode == 200) {
       var jsonResponse = convert.jsonDecode(response.body);
       print("Response: $jsonResponse");
-      AdvertisementData advertisement =
-          AdvertisementData.fromJson(jsonResponse);
+      OfferModel advertisement =
+      OfferModel.fromJson(jsonResponse);
       if (!advertisementData.isClosed) {
-        if ((advertisement.insert?.length ?? 0) > 0) {
-          List<Insert> offerTypeAdvertisement = [];
-          for (Insert advertisement in advertisement.insert!) {
+        if ((advertisement.data?.length ?? 0) > 0) {
+          List<Dataaa> offerTypeAdvertisement = [];
+          for (Dataaa advertisement in advertisement.data!) {
             if (advertisement.bannerType == "offer") {
               offerTypeAdvertisement.add(advertisement);
             }
           }
+          print("offerTypeAdvertisement ${offerTypeAdvertisement}");
           advertisementData.add(offerTypeAdvertisement);
         } else {
           advertisementData.add(null);
@@ -116,7 +88,7 @@ class OfferBloc {
   getInfo(String text) {
     advertisementData.add(null);
     startLoading();
-    callAdvertisementAPI(text);
+    callAPI(text);
   }
 
   startLoading() {

@@ -560,8 +560,12 @@ class RegistrationScreenState extends State<RegistrationScreen> {
             hintStyle: kHintTextStyle,
           ),
           validator: (value) {
-            if (value == null && isChecked) {
+            if (value==null && isChecked) {
               return 'Field can not be blank';
+            }
+            if (value!.length < 10) {
+              showWarningToast('At least 6 character required');
+              return 'At least 6 character required';
             }
 
             return null;
