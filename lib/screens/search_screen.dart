@@ -12,7 +12,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../bloc/history_database_bloc.dart';
 import '../models/product_models.dart';
 
 class Search extends StatefulWidget {
@@ -23,6 +25,9 @@ class Search extends StatefulWidget {
 }
 
 final _apiCallService = new SearchBloc();
+DatabaseConfigHistory? _databaseConfig;
+int _itemCount = 0;
+ProductItem? productItem;
 
 class SearchState extends State<Search> with WidgetsBindingObserver {
   static sliderImage(String item) {
@@ -50,6 +55,35 @@ class SearchState extends State<Search> with WidgetsBindingObserver {
     items = data as List<CartItem>;
     return items.length;
   }
+
+
+  // Define a function to save the data.
+  Future<void> saveProductData(String productName, double price, String categoryName, String companyName) async {
+    final prefs = await SharedPreferences.getInstance();
+
+    prefs.setString('productName', productName);
+    prefs.setDouble('price', price);
+    prefs.setString('setString', categoryName);
+    prefs.setString('companyName', companyName);
+  }
+
+  Future<Map<String, dynamic>> getProductData() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    final productName = prefs.getString('productName') ?? '';
+    final price = prefs.getDouble('price') ?? 0.0;
+    final quantity = prefs.getInt('quantity') ?? 0;
+    final companyName = prefs.getString('companyName') ?? '';
+
+    return {
+      'productName': productName,
+      'price': price,
+      'quantity': quantity,
+      'companyName': companyName,
+    };
+  }
+
+
 
   @override
   void initState() {
@@ -163,14 +197,22 @@ class SearchState extends State<Search> with WidgetsBindingObserver {
                                   (snapshot.data as List<ProductItem>)[index];
                               return ListTile(
                                 onTap: () {
+                                saveProductData(data.productName.toString(), data.price, data.categoryName.toString(), data.companyName.toString());
+                                  print("nazmul ${data}");
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
                                               ProductDetails(),
+
                                           settings: RouteSettings(
                                             arguments: data,
-                                          )));
+
+
+
+                                          )
+                                  )
+                                  );
                                 },
                                 title: listItem(context, data),
                               );

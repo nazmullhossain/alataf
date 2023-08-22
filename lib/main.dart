@@ -11,6 +11,7 @@ import 'package:alataf/screens/home_screen.dart';
 import 'package:provider/provider.dart';
 
 import 'bloc/MainBloc.dart';
+import 'bloc/history_bloc.dart';
 
 final getIt = GetIt.instance;
 
@@ -19,6 +20,7 @@ void main() async {
   await Firebase.initializeApp();
 
   getIt.registerSingleton<CartDetailsBloc>(CartDetailsBloc());
+  getIt.registerSingleton<HistoryDetailsBloc>(HistoryDetailsBloc());
   getIt.registerSingleton<MainBloc>(MainBloc());
 
   return runApp(MyApp());

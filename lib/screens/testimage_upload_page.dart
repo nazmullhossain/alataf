@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 
 import '../bloc/PrescriptionSubmitBloc.dart';
 import '../provider/imge_provider.dart';
+import 'img_test.dart';
 class TestImagePage extends StatefulWidget {
   const TestImagePage({super.key});
 
@@ -111,9 +112,14 @@ class _TestImagePageState extends State<TestImagePage> {
 
                 ElevatedButton(
                   onPressed: () {
-                    PrescriptionUploadBloc pres=PrescriptionUploadBloc();
-                    // pres.callAPI(img: provider.image);
-                   pres.callAPI(provider.image!.path);
+                   //  PrescriptionUploadBloc pres=PrescriptionUploadBloc();
+                   //  // pres.callAPI(img: provider.image);
+                   // pres.callAPI(provider.image!.path);
+
+                    // ImageUploadScreen path=ImageUploadScreen();
+
+                    // path.uploadImage(provider.image!.path);
+                  // path.multipartRequest(filepath: provider.image!.path);
 
                     // pres.uploadIm(context: context, img: provider.image.toString(), msg: "");
 

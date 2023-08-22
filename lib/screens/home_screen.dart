@@ -36,6 +36,8 @@ import 'package:url_launcher/url_launcher.dart';
 import '../bloc/SearchBloc.dart';
 import '../bloc/test_search_block.dart';
 import '../models/info_model.dart';
+import 'history_pages.dart';
+import 'img_test.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -619,7 +621,7 @@ Widget buttonHistory(BuildContext context) {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => OrderHistory(),
+                      builder: (context) => MyHomePage(),
                     ));
               },
               style: ElevatedButton.styleFrom(
@@ -830,6 +832,8 @@ Widget prescriptionUploadView(BuildContext context) {
               padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 16.0),
               decoration: buttonBoxDecorationStyle,
               child: Text("UPLOAD",
+
+
                   style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,

@@ -5,6 +5,7 @@ import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
 
 import '../models/product_models.dart';
+import 'history_database_bloc.dart';
 
 class SearchBloc {
   BehaviorSubject _loader = new BehaviorSubject<bool>();
@@ -13,7 +14,9 @@ class SearchBloc {
   Stream get streamLoader$ => _loader.stream;
   Stream get streamProducts$ => searchData.stream;
   String get currentText => _loader.value;
-
+  DatabaseConfigHistory? _databaseConfig;
+  ProductItem? productItem;
+  int _itemCount = 0;
   callAPI(String text) async {
     if (text.isEmpty || text.length < 2) {
       searchData.add(null);
@@ -42,6 +45,8 @@ class SearchBloc {
       if (!searchData.isClosed) {
         if ((products.data?.productList?.length ?? 0) > 0) {
           searchData.add(products.data?.productList);
+
+          _databaseConfig?.createCustomer(productItem!, _itemCount);
         } else {
           searchData.add(null);
           _loader.add(false);
