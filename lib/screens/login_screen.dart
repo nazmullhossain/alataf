@@ -629,7 +629,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       style: TextStyle(fontSize: 24, color: Colors.deepOrange),
                     ),
                     SizedBox(height: 16),
-                    Text("Sorry, unrecognized email or password"),
+                    Text("Sorry, unrecognized phone or password"),
                   ],
                 ),
               )),

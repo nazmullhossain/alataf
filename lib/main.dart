@@ -1,5 +1,8 @@
 
 import 'package:alataf/provider/imge_provider.dart';
+import 'package:alataf/provider/view_provider.dart';
+import 'package:alataf/screens/splash_screen.dart';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -10,15 +13,21 @@ import 'package:alataf/screens/home_screen.dart';
 // import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:provider/provider.dart';
 
+import 'bloc/HistoryBloc.dart';
 import 'bloc/MainBloc.dart';
+import 'bloc/histoy_bloc_new.dart';
+import 'bloc/hitory_database.dart';
+import 'bloc/search_text_bloc.dart';
 
 final getIt = GetIt.instance;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await DbHelper.dbHelper.initDatabase();
   await Firebase.initializeApp();
 
   getIt.registerSingleton<CartDetailsBloc>(CartDetailsBloc());
+
   getIt.registerSingleton<MainBloc>(MainBloc());
 
   return runApp(MyApp());
@@ -122,17 +131,26 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     // oneSignalPushSetup();
     final _cartDetailsBloc = getIt<CartDetailsBloc>();
+
     _cartDetailsBloc.initDatabase();
+
     HomeBloc _homeBloc = HomeBloc();
     _homeBloc.getUserPreference();
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => Counter()),
         ChangeNotifierProvider(create: (_) => RecipeClass()),
+
       ],
       child: Consumer<Counter>(
         builder: (context, counter, _) {
-          return MaterialApp(debugShowCheckedModeBanner: false, home: Home());
+          return MaterialApp(debugShowCheckedModeBanner: false, home: SplashScreen(),
+
+
+
+
+          );
+
         },
       ),
     );

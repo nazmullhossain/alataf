@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:alataf/bloc/CartDetailsBloc.dart';
 import 'package:alataf/bloc/SearchBloc.dart';
 import 'package:alataf/main.dart';
@@ -12,8 +14,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-import '../models/product_models.dart';
+
+import '../bloc/hitory_database.dart';
+import '../provider/imge_provider.dart';
 
 class Search extends StatefulWidget {
   @override
@@ -35,6 +41,8 @@ class SearchState extends State<Search> with WidgetsBindingObserver {
     }
   }
 
+
+
   int getTotalItemQuantity(var data) {
     List<CartItem> cartItems = [];
     cartItems = data as List<CartItem>;
@@ -50,6 +58,41 @@ class SearchState extends State<Search> with WidgetsBindingObserver {
     items = data as List<CartItem>;
     return items.length;
   }
+
+  //save data share preference
+
+  // // Define a function to save the data.
+  // Future<void> saveProductData(String productName, double price, String categoryName, String companyName) async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //
+  //   prefs.setString('productName', productName);
+  //   prefs.setDouble('price', price);
+  //   prefs.setString('setString', categoryName);
+  //   prefs.setString('companyName', companyName);
+  // }
+  //
+  //
+  // Future<void> _saveData(ProductItem userList) async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   String jsonString = jsonEncode(userList);
+  //   prefs.setString('userList', jsonString );
+  // }
+
+  Future<void> saveData(List<Map<String, dynamic>> dataList) async {
+    final prefs = await SharedPreferences.getInstance();
+    final jsonData = json.encode(dataList);
+    await prefs.setString('dataList', jsonData);
+  }
+
+
+
+  void saveDataToSharedPreferences(List<Map<String, dynamic>> data) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('data_key', jsonEncode(data));
+  }
+
+
+
 
   @override
   void initState() {
@@ -163,6 +206,11 @@ class SearchState extends State<Search> with WidgetsBindingObserver {
                                   (snapshot.data as List<ProductItem>)[index];
                               return ListTile(
                                 onTap: () {
+
+                                   DbHelper.dbHelper.insertNewRecipe(data);
+
+
+
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
@@ -184,6 +232,7 @@ class SearchState extends State<Search> with WidgetsBindingObserver {
           ),
         ),
       ),
+
     );
   }
 
@@ -258,35 +307,42 @@ final spinLoader = SpinKitRotatingCircle(
 );
 
 Widget searchView() {
-  return Container(
-    alignment: Alignment.center,
-    decoration: kBoxDecorationStyle,
-    child: Padding(
-      padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
-      child: TextFormField(
-        autofocus: true,
-        onChanged: (text) {
-          _apiCallService.getInfo(text);
-          print("First text field: $text");
-        },
-        onEditingComplete: () {},
-        decoration: InputDecoration(
-          border: InputBorder.none,
-          prefixIcon: Icon(
-            Icons.search,
-            color: Colors.grey,
+  return Consumer<RecipeClass>(
+    builder: (context, provider, child) {
+      return Container(
+        alignment: Alignment.center,
+        decoration: kBoxDecorationStyle,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+          child: TextFormField(
+
+            autofocus: true,
+            onChanged: (text) {
+              _apiCallService.getInfo(text);
+              print("First text field: $text");
+            },
+            onEditingComplete: () {
+
+            },
+            decoration: InputDecoration(
+              border: InputBorder.none,
+              prefixIcon: Icon(
+                Icons.search,
+                color: Colors.grey,
+              ),
+              hintText: 'Search generic/brand name',
+              hintStyle: kHintTextStyle,
+            ),
+            validator: (value) {
+              if (value?.isEmpty ?? true) {
+                return 'Please enter some text';
+              }
+              return null;
+            },
           ),
-          hintText: 'Search generic/brand name',
-          hintStyle: kHintTextStyle,
         ),
-        validator: (value) {
-          if (value?.isEmpty ?? true) {
-            return 'Please enter some text';
-          }
-          return null;
-        },
-      ),
-    ),
+      );
+    }
   );
 }
 

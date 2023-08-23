@@ -1,14 +1,20 @@
+import 'package:alataf/bloc/search_text_bloc.dart';
 import 'package:alataf/models/Products.dart';
 import 'package:alataf/utilities/constants.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:rxdart/rxdart.dart';
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
-import '../models/product_models.dart';
+import 'Database.dart';
 
-class SearchBloc {
+
+
+class SearchBloc   extends ChangeNotifier{
   BehaviorSubject _loader = new BehaviorSubject<bool>();
   PublishSubject searchData = new PublishSubject<List<ProductItem>>();
+  List<ProductItem> products = [];
 
   Stream get streamLoader$ => _loader.stream;
   Stream get streamProducts$ => searchData.stream;
@@ -16,7 +22,7 @@ class SearchBloc {
 
   callAPI(String text) async {
     if (text.isEmpty || text.length < 2) {
-      searchData.add(null);
+      // searchData.add(null);
       _loader.add(false);
       return;
     }
@@ -39,12 +45,45 @@ class SearchBloc {
       var jsonResponse = convert.jsonDecode(response.body);
       //print("Response: $jsonResponse");
       Products products = Products.fromJson(jsonResponse);
+
+
+
+
+
+
+
+      // List<ProductItem> allRecipes = [];
+      //     ProductItem productItem=ProductItem(
+      //       categoryName: jsonResponse['product_name'],
+      //       companyName: jsonResponse['companyName'],
+      //       genericName: jsonResponse['genericName'],
+      //
+      //
+      //       price: jsonResponse['price'],
+
+
+      // DatabaseConfig databaseConfig=DatabaseConfig();
+      //
+      // ProductItem productItem=ProductItem();
+      // databaseConfig.createCustomer(productItem, 1);
+      // // DbHelper.dbHelper.insertNewRecipe(productItem);
+      //
+
+
+
+
+
       if (!searchData.isClosed) {
         if ((products.data?.productList?.length ?? 0) > 0) {
           searchData.add(products.data?.productList);
-        } else {
-          searchData.add(null);
-          _loader.add(false);
+
+
+          // DbHelper dbHelper=DbHelper();
+
+          // dbHelper.insertNewRecipe(products.data as ProductItem);
+
+
+
         }
       }
     } else {
@@ -53,6 +92,13 @@ class SearchBloc {
 
     stopLoading();
   }
+
+
+
+
+
+
+
 
   getInfo(String text) {
     // searchData.add(null);

@@ -128,9 +128,9 @@ class _RegistrationPhoneState extends State<RegistrationPhone> {
                         phoneNumber: '${selectedValue}${phone}',
                         verificationCompleted:
                             (PhoneAuthCredential credential)async {
-                              // await FirebaseAuth.instance.signInWithCredential(credential);
-                              // requestingForOtp = true;
-                            },
+                          // await FirebaseAuth.instance.signInWithCredential(credential);
+                          // requestingForOtp = true;
+                        },
                         verificationFailed: (FirebaseAuthException e) {
                           setState(() {
                             requestingForOtp = false;

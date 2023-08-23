@@ -560,13 +560,15 @@ class RegistrationScreenState extends State<RegistrationScreen> {
             hintStyle: kHintTextStyle,
           ),
           validator: (value) {
+            if (value!.length < 10) {
+              showWarningToast('At least 10 character required');
+              return 'At least 10 character required';
+            }
+
             if (value==null && isChecked) {
               return 'Field can not be blank';
             }
-            if (value!.length < 10) {
-              showWarningToast('At least 6 character required');
-              return 'At least 6 character required';
-            }
+
 
             return null;
           },
@@ -629,9 +631,11 @@ class RegistrationScreenState extends State<RegistrationScreen> {
             hintStyle: kHintTextStyle,
           ),
           validator: (value) {
-            if (value == null) {
-              return 'Please enter you trade licence';
+            if (value!.length < 10) {
+              showWarningToast('At least 10 character required');
+              return 'At least 10 character required';
             }
+
             // if (_password != _shopOwnerName) {
             //   return 'Password does not match';
             // }

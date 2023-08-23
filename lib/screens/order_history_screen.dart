@@ -79,7 +79,7 @@ class OrderHistoryState extends State<OrderHistory> {
                             return Center(child: spinCircleLoader);
                           }
                         } else
-                          return Center(child: spinCircleLoader);
+                          return Center(child: Text("No order yet"));
                       });
                 }
               }),
@@ -276,12 +276,12 @@ class OrderHistoryState extends State<OrderHistory> {
   Widget itemCounter(BuildContext context, CartItem product) {
     return Row(
       children: <Widget>[
-        CircleAvatar(
-          backgroundColor: Colors.white10,
-          radius: 16,
-          child: IconButton(
-            padding: EdgeInsets.zero,
-            icon: Icon(Icons.remove),
+        CircleAvatar(          radius: 16,
+      child: IconButton(
+        padding: EdgeInsets.zero,
+        icon: Icon(Icons.remove),
+
+
             color: Colors.black54,
             onPressed: () {},
           ),

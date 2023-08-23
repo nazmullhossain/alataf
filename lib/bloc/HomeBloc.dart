@@ -22,18 +22,21 @@ class HomeBloc {
   String get currentText => _loader.value;
 
   callAdvertisementAPI(String text) async {
-    var url = "http://178.128.217.96/api/get_advertisement?datetime=2020-03-15";
+    var url = "http://178.128.217.96/api/get_advertisement?datetime=2020-03-13";
     print(url);
     Map<String, String> headers = {
       "Accept": "application/json",
     };
 
     var response = await http.post(Uri.parse(url), headers: headers);
+
+    print("home block---------------------> ${response.body}");
+
     if (response.statusCode == 200) {
       var jsonResponse = convert.jsonDecode(response.body);
       print("Response: $jsonResponse");
       AdvertisementData advertisement =
-          AdvertisementData.fromJson(jsonResponse);
+      AdvertisementData.fromJson(jsonResponse);
       if (!advertisementData.isClosed) {
         if ((advertisement.insert?.length ?? 0) > 0) {
           advertisementData.add(advertisement);

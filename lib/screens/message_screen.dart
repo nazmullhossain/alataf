@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:alataf/models/CartItem.dart';
 import 'package:alataf/utilities/constants.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'checkout_screen.dart';
 
@@ -12,6 +13,23 @@ class Message extends StatefulWidget {
 }
 
 class MessageState extends State<Message> {
+
+
+  final String facebookMessengerUrl = "http://m.me/alatafpharma";
+
+  void _openMessenger() async {
+    // Check if the Facebook Messenger app is installed
+    if (await canLaunch(facebookMessengerUrl)) {
+      // If the app is installed, open it
+      await launch(facebookMessengerUrl);
+    } else {
+      // If the app is not installed, open the web version of Messenger
+      final webMessengerUrl = "https://www.facebook.com/alatafpharma";
+      await launch(webMessengerUrl);
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -56,6 +74,16 @@ class MessageState extends State<Message> {
           //       }
           //     }),
         ),
+        
+        floatingActionButton: FloatingActionButton(
+
+          elevation: 10,
+
+          onPressed: (){
+
+          _openMessenger();
+
+        },child: Icon(Icons.message,),),
       ),
     );
   }

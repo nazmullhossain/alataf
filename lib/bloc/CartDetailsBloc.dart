@@ -3,7 +3,7 @@ import 'package:alataf/models/CartItem.dart';
 import 'package:alataf/models/Products.dart';
 import 'package:rxdart/rxdart.dart';
 
-import '../models/product_models.dart';
+
 
 class CartDetailsBloc {
   BehaviorSubject _counter = new BehaviorSubject<int>.seeded(0);

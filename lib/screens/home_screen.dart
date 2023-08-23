@@ -33,9 +33,14 @@ import 'package:share_plus/share_plus.dart';
 
 import 'package:url_launcher/url_launcher.dart';
 
-import '../bloc/SearchBloc.dart';
-import '../bloc/test_search_block.dart';
+
 import '../models/info_model.dart';
+
+import '../pages/new_up.dart';
+
+import 'history_pages.dart';
+
+
 
 class Home extends StatefulWidget {
   @override
@@ -139,6 +144,7 @@ class HomeState extends State<Home> with WidgetsBindingObserver {
     insertData = await offerBloc.getData(context);
     setState(() {});
   }
+
   // TestSearch testSearch =TestSearch();
   // SearchBloc searchBloc=SearchBloc();
   @override
@@ -146,8 +152,6 @@ class HomeState extends State<Home> with WidgetsBindingObserver {
     super.initState();
     print("here");
     fetchAllProducts();
-
-
 
     // testSearch.searchData();
     Platform.isAndroid ? AndroidDeviceInformation() : IosDeviceInformation();
@@ -264,8 +268,9 @@ class HomeState extends State<Home> with WidgetsBindingObserver {
           title: Row(
             children: <Widget>[
               Image.asset(
-                "assets/images/Transparent PNG.png",width: 100,height: 100,
-
+                "assets/images/Transparent PNG.png",
+                width: 100,
+                height: 100,
               ),
               Expanded(child: SizedBox()),
               StreamBuilder(
@@ -619,7 +624,7 @@ Widget buttonHistory(BuildContext context) {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => OrderHistory(),
+                      builder: (context) => HitoryPage(),
                     ));
               },
               style: ElevatedButton.styleFrom(
@@ -653,13 +658,13 @@ Widget buttonOrder(BuildContext context) {
                     .addPostFrameCallback((_) => Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => Search(),
+                          builder: (context) => OrderHistory(),
                         )));
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Color(0xFFFFEEE6),
               ),
-              child: FaIcon(FontAwesomeIcons.search,
+              child: FaIcon(FontAwesomeIcons.firstOrder,
                   size: 30, color: Colors.black54)),
         ),
         Padding(
@@ -812,8 +817,7 @@ Widget prescriptionUploadView(BuildContext context) {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-
-                      builder: (context) => TestImagePage(),
+                      builder: (context) => NewRecipeScreen(),
                     ));
               } else {
                 /*Fluttertoast.showToast(
