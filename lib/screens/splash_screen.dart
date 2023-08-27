@@ -29,7 +29,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
 
 
   Future<void> _initilizeData()async {
-    Future.delayed(Duration(seconds: 5)).then((value) => Navigator.push(context, MaterialPageRoute(builder: (context)=>Home())));
+    Future.delayed(Duration(seconds: 3)).then((value) => Navigator.push(context, MaterialPageRoute(builder: (context)=>Home())));
   }
 
 

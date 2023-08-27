@@ -168,68 +168,77 @@ class SearchState extends State<Search> with WidgetsBindingObserver {
             backgroundColor: Colors.white),
         drawer: Drawer(),
         backgroundColor: Color(0xFFFFFFFF),
-        body: Container(
-          padding: EdgeInsets.symmetric(
-            horizontal: 16.0,
-            vertical: 2.0,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              searchView(),
-              SizedBox(height: 20),
-              StreamBuilder(
-                  stream: _apiCallService.streamLoader$,
-                  builder: (context, snapshot) {
-                    print("snap data-> ${snapshot.data}");
-                    if (snapshot.data != null) {
-                      if (snapshot.data) {
-                        return Center(child: spinLoader);
-                      } else {
-                        return Container();
-                      }
-                    } else
-                      return Container();
-                  }),
-              SizedBox(height: 2),
-              StreamBuilder(
-                  stream: _apiCallService.streamProducts$,
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      return Expanded(
-                        child: ListView.builder(
-                            shrinkWrap: true,
-                            itemCount:
-                                (snapshot.data as List<ProductItem>).length,
-                            itemBuilder: (context, index) {
-                              var data =
-                                  (snapshot.data as List<ProductItem>)[index];
-                              return ListTile(
-                                onTap: () {
+        body: Consumer<RecipeClass>(
 
-                                   DbHelper.dbHelper.insertNewRecipe(data);
+          builder: (BuildContext context, provider, Widget? child) {
+            return Container(
+              padding: EdgeInsets.symmetric(
+                horizontal: 16.0,
+                vertical: 2.0,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  searchView(),
+                  SizedBox(height: 20),
+                  StreamBuilder(
+                      stream: _apiCallService.streamLoader$,
+                      builder: (context, snapshot) {
+                        print("snap data-> ${snapshot.data}");
+                        if (snapshot.data != null) {
+                          if (snapshot.data) {
+                            return Center(child: spinLoader);
+                          } else {
+                            return Container();
+                          }
+                        } else
+                          return Container();
+                      }),
+                  SizedBox(height: 2),
+                  StreamBuilder(
+                      stream: _apiCallService.streamProducts$,
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return Expanded(
+                            child: ListView.builder(
+                                shrinkWrap: true,
+                                itemCount:
+                                    (snapshot.data as List<ProductItem>).length,
+                                itemBuilder: (context, index) {
+                                  var data =
+                                      (snapshot.data as List<ProductItem>)[index];
+                                  return ListTile(
+                                    onTap: () async{
+
+                                      await DbHelper.dbHelper.insertNewRecipe(data);
+
+                                      provider.getRecipes();
 
 
 
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              ProductDetails(),
-                                          settings: RouteSettings(
-                                            arguments: data,
-                                          )));
-                                },
-                                title: listItem(context, data),
-                              );
-                            }),
-                      );
-                    } else {
-                      return defaultSearchView(context);
-                    }
-                  }),
-            ],
-          ),
+
+
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  ProductDetails(),
+                                              settings: RouteSettings(
+                                                arguments: data,
+                                              )));
+                                    },
+                                    title: listItem(context, data),
+                                  );
+                                }),
+                          );
+                        } else {
+                          return defaultSearchView(context);
+                        }
+                      }),
+                ],
+              ),
+            );
+          }
         ),
       ),
 

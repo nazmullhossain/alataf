@@ -199,16 +199,21 @@ class OrderHistoryState extends State<OrderHistory> {
             (product.prescription == "0")
                 ? Text("BDT ${product.totalAmount}/=",
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold))
-                : Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: <Widget>[
-                      Text("Rx"),
-                      Icon(
-                        LineAwesomeIcons.sticky_note,
-                        size: 30,
+                : Column(
+                  children: [
+                    Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: <Widget>[
+                          Text("Rx"),
+                          Icon(
+                            LineAwesomeIcons.sticky_note,
+                            size: 30,
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
+                    Text("BDT ${product.totalAmount}/=",style: TextStyle(fontWeight: FontWeight.bold),)
+                  ],
+                ),
           ],
         ),
       ),

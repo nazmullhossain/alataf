@@ -60,6 +60,7 @@ class ProfilesBloc {
           userMap['postcode'] = int.parse(profileMap['postcode'] ?? "0");
           userMap['city'] = profileMap['city'] ?? '';
           userMap['shop_name'] = profileMap['shop_name'];
+          userMap['Wholesale'] = profileMap['Wholesale'];
           String jsonStringAgain = convert.jsonEncode(userMap);
           saveUserPreference(jsonStringAgain, context, products, checkout);
           _responseProfilesData.add(responseData);

@@ -338,7 +338,7 @@ class HomeState extends State<Home> with WidgetsBindingObserver {
                         width: 60.0,
                         decoration: BoxDecoration(
                           image: DecorationImage(
-                            image: AssetImage('assets/logos/al_ataf_logo.png'),
+                            image: AssetImage('assets/images/lan.png'),
                             fit: BoxFit.contain,
                           ),
                           shape: BoxShape.circle,
@@ -394,18 +394,32 @@ class HomeState extends State<Home> with WidgetsBindingObserver {
                     ));
               },
             ),
+
+
             ListTile(
               dense: true,
               title: Text('Share'),
               onTap: () {
                 Navigator.pop(context);
-                final RenderBox box = context.findRenderObject() as RenderBox;
-                Share.share("Share Al-Ataf",
-                    subject: "Subject",
-                    sharePositionOrigin:
-                        box.localToGlobal(Offset.zero) & box.size);
+                _launchURL('https://play.google.com/store/apps/details?id=com.itmedicus.alataf');
               },
             ),
+
+
+
+
+            // ListTile(
+            //   dense: true,
+            //   title: Text('Share'),
+            //   onTap: () {
+            //     Navigator.pop(context);
+            //     final RenderBox box = context.findRenderObject() as RenderBox;
+            //     Share.share("Share Al-Ataf",
+            //         subject: "Subject",
+            //         sharePositionOrigin:
+            //             box.localToGlobal(Offset.zero) & box.size);
+            //   },
+            // ),
             ListTile(
               dense: true,
               title: Text('Feedback'),
@@ -547,10 +561,12 @@ class HomeState extends State<Home> with WidgetsBindingObserver {
                 insertData == null
                     ? sliderView(_imageSliders!)
                     : CarouselSlider(
+
                         items: insertData!
                             .map(
                               (item) => Image.network(
                                 item.imageUrl.toString(),
+
                                 fit: BoxFit.cover,
                                 height: 144,
                               ),

@@ -73,7 +73,7 @@ class OfferState extends State<Offer> {
                                   child: Text("Offer is not available now")),
                             );
                           } else {
-                            return Center(child: spinLoader);
+                            return Center(child: Text("Offer is not available now"));
                           }
                         } else
                           return Center(

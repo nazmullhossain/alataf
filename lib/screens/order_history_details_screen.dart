@@ -58,7 +58,8 @@ class HistoryItemDetailsState extends State<HistoryItemDetails> {
         if (data.success == "true") {
           Navigator.pushReplacement(
               context, MaterialPageRoute(builder: (__) => OrderHistory()));
-          Fluttertoast.showToast(msg:"Order has been canceled successfully",
+          Fluttertoast.showToast(
+              msg: "Order has been canceled successfully",
               // duration: Toast.LENGTH_LONG,
               // gravity: Toast.CENTER,
               toastLength: Toast.LENGTH_SHORT,
@@ -104,19 +105,188 @@ class HistoryItemDetailsState extends State<HistoryItemDetails> {
     var prescriptionView = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        closeButton(context),
-        SizedBox(height: 16),
+        // closeButton(context),
         Expanded(
-            child: Image.network(
-          "${product.prescriptionSrc}",
-          loadingBuilder: (BuildContext context, Widget child,
-              ImageChunkEvent? loadingProgress) {
-            if (loadingProgress == null) return child;
-            return Center(
-              child: spinKitChasingDots,
-            );
-          },
-        )),
+
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              closeButton(context),
+              SizedBox(height: 5),
+              Text("ORDER DETAILS",
+                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+              SizedBox(height: 4),
+              Padding(
+                padding: const EdgeInsets.only(left: 10),
+                child: Row(
+                  children: [
+                    FaIcon(
+                      FontAwesomeIcons.calendarCheck,
+                      size: 15,
+                      color: Colors.grey[800],
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Text(
+                        "Date: ${DateFormat("dd-MM-yyyy hh:mm:ss a").format(DateTime.parse("${product.createdAt}")).split(" ")[0]}",
+                        style: TextStyle(fontSize: 16, color: Colors.grey[700])),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 10),
+                child: Row(
+                  children: [
+                    FaIcon(
+                      FontAwesomeIcons.clock,
+                      size: 15,
+                      color: Colors.grey[800],
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Text(
+                        "Time: ${DateFormat("dd-MM-yyyy hh:mm:ss a").format(DateTime.parse("${product.createdAt}")).split(" ")[1]} ${DateFormat("dd-MM-yyyy hh:mm:ss a").format(DateTime.parse("${product.createdAt}")).split(" ")[2]}",
+                        style: TextStyle(fontSize: 12, color: Colors.grey[700])),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 10),
+                child: Row(
+                  children: [
+                    FaIcon(
+                      FontAwesomeIcons.check,
+                      size: 15,
+                      color: Colors.grey[800],
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    // Text("Status: ${_getStatus(product.status)}", style: TextStyle(fontSize: 12,color: Colors.grey[700])),
+                    _statusWidget(product.status),
+                  ],
+                ),
+              ),
+              SizedBox(height: 10),
+              Text("Product Details",
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+              // Container(
+              //   padding: EdgeInsets.only(left: 10, top: 5),
+              //   alignment: Alignment.center,
+              //   child: Row(
+              //     crossAxisAlignment: CrossAxisAlignment.center,
+              //     children: [
+              //       Icon(
+              //         Icons.my_location,
+              //         size: 14,
+              //         color: Colors.grey[700],
+              //       ),
+              //       SizedBox(
+              //         width: 10,
+              //       ),
+              //       Expanded(
+              //           child: Text(product.address ?? "",
+              //               style: TextStyle(
+              //                   fontSize: 18, color: Colors.grey[600]))),
+              //     ],
+              //   ),
+              // ),
+              // Container(
+              //   padding: EdgeInsets.symmetric(horizontal: 13),
+              //   alignment: Alignment.center,
+              //   child: Row(
+              //     crossAxisAlignment: CrossAxisAlignment.center,
+              //     children: [
+              //       FaIcon(
+              //         FontAwesomeIcons.mobileAlt,
+              //         size: 14,
+              //         color: Colors.grey[700],
+              //       ),
+              //       SizedBox(
+              //         width: 10,
+              //       ),
+              //       Text("${product.phone}",
+              //           style: TextStyle(fontSize: 14, color: Colors.grey[600])),
+              //     ],
+              //   ),
+              // ),
+              // Padding(
+              //   padding: const EdgeInsets.only(left: 12, top: 10),
+              //   child: Row(
+              //     crossAxisAlignment: CrossAxisAlignment.center,
+              //     children: [
+              //       FaIcon(
+              //         FontAwesomeIcons.stickyNote,
+              //         size: 14,
+              //         color: Colors.grey[700],
+              //       ),
+              //       SizedBox(
+              //         width: 10,
+              //       ),
+              //       Text("Note: ${product.remarks}",
+              //           style: TextStyle(fontSize: 14, color: Colors.grey[600])),
+              //     ],
+              //   ),
+              // ),
+              // SizedBox(height: 10),
+              productList,
+              // SizedBox(height: 8),
+              Divider(
+                height: 1,
+                color: Colors.black54,
+              ),
+              // SizedBox(height: 8),
+              Align(
+                alignment: Alignment.topRight,
+                child: Text("${product.totalAmount}/=",
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+              ),
+              // SizedBox(height: 30),
+              // SizedBox(height: 24),
+              // Expanded(child: SizedBox()),
+              // SizedBox(height: 24),
+              Row(
+                children: <Widget>[
+                  // Expanded(child: SizedBox()),
+                  // (product.status == 0)
+                  //     ? buttonCancelOrder(context, product)
+                  //     : SizedBox.shrink(),
+                  // SizedBox(width: 16),
+                  //buttonMessage(context, product),
+                  //itemCounter(context),
+                ],
+              ),
+              SizedBox(height: 30,),
+
+              ClipRRect(
+                  borderRadius: BorderRadius.circular(8.0),
+                
+
+                  child: Image.network(
+
+
+                    "${product.prescriptionSrc}",
+                    fit: BoxFit.cover,
+                    height: 300,
+                    width: double.infinity,
+                    loadingBuilder: (BuildContext context, Widget child,
+                        ImageChunkEvent? loadingProgress) {
+                      if (loadingProgress == null) return child;
+                      return Center(
+                        child: spinKitChasingDots,
+                      );
+                    },
+                  )),
+              // SizedBox(height: 16),
+            ],
+          ),
+        ),
+        // SizedBox(height: 10),
+
+        //pres
+
         SizedBox(height: 24),
         Row(
           children: <Widget>[
@@ -127,7 +297,10 @@ class HistoryItemDetailsState extends State<HistoryItemDetails> {
                 builder: (context, snapshot) {
                   return (snapshot.data)
                       ? spinCircleLoader
-                      : buttonCancelOrder(context, product);
+                      :
+                      Container();
+
+                  // buttonCancelOrder(context, product);
                 }),
 
             SizedBox(width: 16),
@@ -280,7 +453,9 @@ class HistoryItemDetailsState extends State<HistoryItemDetails> {
           children: <Widget>[
             Expanded(child: SizedBox()),
             (product.status == 0)
-                ? buttonCancelOrder(context, product)
+                ? Container()
+
+            // buttonCancelOrder(context, product)
                 : SizedBox.shrink(),
             SizedBox(width: 16),
             //buttonMessage(context, product),
@@ -341,30 +516,30 @@ class HistoryItemDetailsState extends State<HistoryItemDetails> {
     );
   }
 
-  Widget buttonCancelOrder(BuildContext context, Item productItem) {
-    return Column(
-      children: <Widget>[
-        Container(
-          height: 42,
-          child: ElevatedButton(
-              onPressed: () {
-                showAlertDialog(context, productItem.id.toString());
-              },
-              style: ElevatedButton.styleFrom(
-                elevation: 8.0,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                    side: BorderSide(color: Color(0xFFF5926D))),
-                backgroundColor: Color(0xFFF5926D),
-              ),
-              child: Text(
-                "CANCEL ORDER",
-                style: TextStyle(fontSize: 14, color: Color(0xFFFFFFFF)),
-              )),
-        ),
-      ],
-    );
-  }
+  // Widget buttonCancelOrder(BuildContext context, Item productItem) {
+  //   return Column(
+  //     children: <Widget>[
+  //       Container(
+  //         height: 42,
+  //         child: ElevatedButton(
+  //             onPressed: () {
+  //               showAlertDialog(context, productItem.id.toString());
+  //             },
+  //             style: ElevatedButton.styleFrom(
+  //               elevation: 8.0,
+  //               shape: RoundedRectangleBorder(
+  //                   borderRadius: BorderRadius.circular(10.0),
+  //                   side: BorderSide(color: Color(0xFFF5926D))),
+  //               backgroundColor: Color(0xFFF5926D),
+  //             ),
+  //             child: Text(
+  //               "CANCEL ORDER",
+  //               style: TextStyle(fontSize: 14, color: Color(0xFFFFFFFF)),
+  //             )),
+  //       ),
+  //     ],
+  //   );
+  // }
 
   Widget itemCounter(BuildContext context) {
     return Row(

@@ -68,7 +68,7 @@ class OrderHistoryDetailsBloc {
   }
 
   dispose() {
-    responseData.add(null);
+    // responseData.add(null);
     responseData.close();
     print("Dispose called from bloc");
   }

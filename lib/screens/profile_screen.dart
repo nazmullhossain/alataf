@@ -4,7 +4,11 @@ import 'package:alataf/models/ProfilesData.dart';
 import 'package:alataf/utilities/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../bloc/MainBloc.dart';
+import '../main.dart';
 // import 'package:toast/toast.dart';
 
 class Profile extends StatefulWidget {
@@ -19,6 +23,7 @@ class ProfileState extends State<Profile> {
   int _result = 0;
 
   bool checkout = false;
+  bool isChecked = false;
 
   bool isWholeSale = false;
 
@@ -120,7 +125,7 @@ class ProfileState extends State<Profile> {
             child: StreamBuilder(
                 stream: _profilesBloc2.streamUserPreferenceData$,
                 builder: (context, snapshot) {
-                  LoginData loginData = snapshot.data as LoginData;
+                  // LoginData loginData = snapshot.data as LoginData;
                   return Container(
                     padding: EdgeInsets.symmetric(
                       horizontal: 16.0,
@@ -305,6 +310,23 @@ class ProfileState extends State<Profile> {
                         //   ],
                         // ),
 
+                        CheckboxListTile(
+                          dense: true,
+                          title: Text(
+                            "Tick if shop owner",
+                            style: TextStyle(fontSize: 18),
+                          ),
+                          value: isChecked,
+                          onChanged: _onShopOwnerCheckBoxChanged,
+                          controlAffinity:
+                          ListTileControlAffinity.leading, //  <-- leading Checkbox
+                        ),
+                        Container(
+                            child:
+                            isChecked ? shopOwnerView(context) : SizedBox.shrink()),
+
+
+
                         isWholeSale ? SizedBox(height: 8) : Container(),
                         isWholeSale
                             ? Container(
@@ -371,7 +393,9 @@ class ProfileState extends State<Profile> {
                               if (snapshot.hasData && snapshot.data == true) {
                                 return Center(child: spinCircleLoader);
                               } else {
-                                return buttonConfirmOrder(context, loginData);
+                                return
+
+                                  buttonConfirmOrder(context);
                               }
                             }),
                       ],
@@ -384,7 +408,7 @@ class ProfileState extends State<Profile> {
     );
   }
 
-  Widget buttonConfirmOrder(BuildContext context, LoginData loginData) {
+  Widget buttonConfirmOrder(BuildContext context) {
     return Column(
       children: <Widget>[
         Container(
@@ -397,13 +421,14 @@ class ProfileState extends State<Profile> {
                   "mobile": _textMobileNumberController.text,
                   // "gender": _radioValue.toString(),
                   "address": _textAddressController.text,
+                  "Wholesale": _textTradeLicenceController.text,
                   // "postcode": _textPostCodeController.text,
                   // "city": _textCityController.text,
                   "email": _textEmailController.text,
                   if (isWholeSale) "shop_name": _textShopNameController.text,
                   if (isWholeSale)
                     "trade_license": _textTradeLicenceController.text,
-                  "key": loginData.key
+                  "key":  "${getIt<MainBloc>().key}"
                 };
                 _profilesBloc2.callAPI(
                     profiles,
@@ -430,4 +455,159 @@ class ProfileState extends State<Profile> {
       ],
     );
   }
+
+
+  void _onShopOwnerCheckBoxChanged(bool? newValue) => setState(() {
+    isChecked = newValue ?? false;
+
+    if (isChecked) {
+      // TODO: Here goes your functionality that remembers the user.
+    } else {
+      // TODO: Forget the user
+    }
+  });
+
+
+  void showWarningToast(String message) {
+    Fluttertoast.showToast(msg:message,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.CENTER,
+      textColor: Colors.white,
+      backgroundColor: Colors.red,
+      // duration: Toast.LENGTH_SHORT,
+      // gravity: Toast.BOTTOM
+
+
+    );
+  }
+
+
+
+
+
+  Widget textShopOwnerName(BuildContext context) {
+    return Container(
+      alignment: Alignment.center,
+      decoration: kBoxDecorationStyle,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: TextFormField(
+          onChanged: (text) {
+            setState(() {
+              // _shopOwnerName = text;
+            });
+          },
+          decoration: InputDecoration(
+            border: InputBorder.none,
+            prefixIcon: Icon(
+              LineAwesomeIcons.user,
+              color: Colors.black87,
+            ),
+            hintText: 'Enter shop owner name',
+            hintStyle: kHintTextStyle,
+          ),
+          validator: (value) {
+            if (value!.length < 10) {
+              showWarningToast('At least 10 character required');
+              return 'At least 10 character required';
+            }
+
+            if (value==null && isChecked) {
+              return 'Field can not be blank';
+            }
+
+
+            return null;
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget textShopOwnerAddress(BuildContext context) {
+    return Container(
+      alignment: Alignment.center,
+      decoration: kBoxDecorationStyle,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: TextFormField(
+          onChanged: (text) {
+            setState(() {
+              // _shopOwnerAddress = text;
+            });
+          },
+          decoration: InputDecoration(
+            border: InputBorder.none,
+            prefixIcon: Icon(
+              LineAwesomeIcons.home,
+              color: Colors.black87,
+            ),
+            hintText: 'Enter shop owner address',
+            hintStyle: kHintTextStyle,
+          ),
+          validator: (value) {
+            if (value == null) {
+              return 'Shop owner address can not be blank';
+            }
+            return null;
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget textShopOwnerTradeLicense(BuildContext context) {
+    return Container(
+      alignment: Alignment.center,
+      decoration: kBoxDecorationStyle,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: TextFormField(
+          controller: _textTradeLicenceController,
+          onChanged: (text) {
+            setState(() {
+              // _shopOwnerTradeLicense = text;
+            });
+          },
+          decoration: InputDecoration(
+            border: InputBorder.none,
+            prefixIcon: Icon(
+              Icons.library_books,
+              color: Colors.black87,
+            ),
+            hintText: 'Enter shop owner trade license',
+            hintStyle: kHintTextStyle,
+          ),
+          validator: (value) {
+            if (value!.length < 10) {
+              showWarningToast('At least 10 character required');
+              return 'At least 10 character required';
+            }
+
+            // if (_password != _shopOwnerName) {
+            //   return 'Password does not match';
+            // }
+
+            return null;
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget shopOwnerView(BuildContext context) {
+    return Container(
+      child: Column(
+        children: <Widget>[
+          // SizedBox(height: 16),
+          // textShopOwnerName(context),
+          // SizedBox(height: 16),
+          // textShopOwnerAddress(context),
+          SizedBox(height: 16),
+          textShopOwnerTradeLicense(context)
+        ],
+      ),
+    );
+  }
+
 }
